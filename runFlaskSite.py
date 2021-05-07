@@ -72,14 +72,16 @@ tr:nth-child(even) {
 <script>
 
     var updateRate = 5000;
+    var intervalId;
 
-    // Load the sensor values when the page is loaded
+    // When the page is loaded first time
     document.addEventListener("DOMContentLoaded", function(){
+        // Load the sensor values when the page is loaded
         loadDoc();
+        
+        // Update the values every <updateRate> ms
+        intervalId = setInterval(loadDoc, updateRate);
     });
-
-    // Update the values every <updateRate> ms
-    setInterval(loadDoc, updateRate);
 
     function loadDoc() {
         var xhttp = new XMLHttpRequest();
@@ -101,6 +103,10 @@ tr:nth-child(even) {
     // Change the update rate (seconds)
     function changeUpdateRate(rate) {
         updateRate = rate*1000;
+        
+        clearInterval(intervalId);
+        intervalId = setInterval(loadDoc, updateRate);
+        
         console.log(updateRate);
     }
 </script>
