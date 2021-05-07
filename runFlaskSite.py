@@ -104,6 +104,11 @@ tr:nth-child(even) {
     function changeUpdateRate(rate) {
         updateRate = rate*1000;
         
+        // Don't allow too fast update rates
+        if(updateRate < 500) {
+            updateRate = 500;
+        }
+        
         clearInterval(intervalId);
         intervalId = setInterval(loadDoc, updateRate);
         
