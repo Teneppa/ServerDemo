@@ -53,6 +53,7 @@ tr:nth-child(even) {
 <body>
 
 <h2>Test</h2>
+<button onclick="changeUpdateRate(10)">10S Update</button>
 
 <table>
   <tr>
@@ -70,13 +71,15 @@ tr:nth-child(even) {
 
 <script>
 
+    var updateRate = 5000;
+
     // Load the sensor values when the page is loaded
     document.addEventListener("DOMContentLoaded", function(){
         loadDoc();
     });
 
-    // Update the values every 5s
-    setInterval(loadDoc, 5000);
+    // Update the values every <updateRate> ms
+    setInterval(loadDoc, updateRate);
 
     function loadDoc() {
         var xhttp = new XMLHttpRequest();
@@ -93,6 +96,11 @@ tr:nth-child(even) {
         
         var dt = new Date();
         document.getElementById("update").innerHTML = dt.getHours()+"."+dt.getMinutes()+"."+dt.getSeconds()+":"+dt.getMilliseconds();
+    }
+    
+    // Change the update rate (seconds)
+    function changeUpdateRate(rate) {
+        updateRate = rate*1000;
     }
 </script>
 
