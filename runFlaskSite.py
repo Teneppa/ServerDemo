@@ -101,6 +101,7 @@ tr:nth-child(even) {
     // Change the update rate (seconds)
     function changeUpdateRate(rate) {
         updateRate = rate*1000;
+        console.log(updateRate);
     }
 </script>
 
