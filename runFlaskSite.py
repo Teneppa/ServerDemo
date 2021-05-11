@@ -3,6 +3,20 @@ from flask import request
 
 app = Flask(__name__)
 
+@app.before_request
+def log_request():
+    #breakpoint()
+    
+    if request.__dict__['environ']['RAW_URI'] == '/raw':
+        return
+
+    print("Not /raw -> Writing to file!")
+    with open('ultimatelog.txt', 'a+') as f:
+        f.write(str(request.__dict__))
+        f.write("\n\n")
+
+    #print(request.headers)
+
 @app.route('/raw')
 def raw():
     tempString = ""
@@ -53,6 +67,8 @@ tr:nth-child(even) {
 <body>
 
 <h2>Test</h2>
+<button onclick="changeUpdateRate(2)">2S Update</button>
+<button onclick="changeUpdateRate(5)">5S Update</button>
 <button onclick="changeUpdateRate(10)">10S Update</button>
 
 <table>
