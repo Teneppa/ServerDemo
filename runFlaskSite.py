@@ -83,7 +83,7 @@ tr:nth-child(even) {
     <td id="update">dunno</td>
   </tr>
 </table>
-
+<canvas id="demoCanvas" width="340" height="340"> canvas</canvas>
 
 <script>
 
@@ -94,6 +94,9 @@ tr:nth-child(even) {
     document.addEventListener("DOMContentLoaded", function(){
         // Load the sensor values when the page is loaded
         loadDoc();
+
+        // Update meter value
+        updateTempMeter();
         
         // Update the values every <updateRate> ms
         intervalId = setInterval(loadDoc, updateRate);
@@ -114,7 +117,9 @@ tr:nth-child(even) {
         
         var dt = new Date();
         document.getElementById("update").innerHTML = dt.getHours()+"."+dt.getMinutes()+"."+dt.getSeconds()+":"+dt.getMilliseconds();
-    }
+   
+        updateTempMeter();
+   }
     
     // Change the update rate (seconds)
     function changeUpdateRate(rate) {
@@ -131,6 +136,55 @@ tr:nth-child(even) {
         console.log(updateRate);
     }
 </script>
+
+<script>
+var canvas = document.getElementById('demoCanvas');
+var ctx = canvas.getContext('2d');
+
+function updateTempMeter() {
+    ctx.beginPath();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.stroke();
+
+    var raw = document.getElementById("demo").textContent;
+    var temp = parseFloat(raw).toPrecision(3);
+
+    var scaled = 0;
+    var parsed = 0;
+    if(!isNaN(temp)) {
+        parsed = temp;
+        scaled = temp/50;
+    }else{
+        var parsed = -99;
+    }
+
+    ctx.font = "34px Tahoma";
+    ctx.fillStyle = "white";
+    ctx.fillText(String(parsed)+"°C", 40, 94);
+
+    var x = 90;
+    var y = 100;
+    var radius = 75;
+    var startAngle = 1 * Math.PI;
+    var endAngle = (1+scaled) * Math.PI;
+    var counterClockwise = false;
+
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 1 * Math.PI, 2*Math.PI, counterClockwise);
+    ctx.lineWidth = 12;
+    // line color
+    ctx.strokeStyle = "#000000";
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(x, y, radius, startAngle, endAngle, counterClockwise);
+    ctx.lineWidth = 12;
+    // line color
+    ctx.strokeStyle = "#2ECC71";
+    ctx.stroke();
+}
+</script>
+
 
 </body>
 
