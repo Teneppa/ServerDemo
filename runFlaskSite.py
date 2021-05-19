@@ -62,9 +62,15 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+tr:nth-child(odd) {
+  background-color: #666666;
+  color: #FFFFFF;
+}
+
 </style>
 </head>
-<body>
+<body style="background-color:#131516;">
 
 <h2>Test</h2>
 <button onclick="changeUpdateRate(2)">2S Update</button>
